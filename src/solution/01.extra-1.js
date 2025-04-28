@@ -1,23 +1,21 @@
-import { useEffect } from "react";
+import { renderHook, act } from "@testing-library/react-hooks";
+import { usePokemon } from "../exercise/01.extra-1"; // Adjust path accordingly
 
-export function useDocumentTitle(title) {
-  useEffect(() => {
-    document.title = title;
-  }, [title]);
-}
+describe("Extra Credit: usePokemon Hook", () => {
+  test("handles pending, fulfilled, and rejected states correctly", async () => {
+    const { result, waitForNextUpdate } = renderHook(() => usePokemon("pikachu"));
 
-function Home() {
-  useDocumentTitle("testing");
+    // Test for 'pending' state
+    expect(result.current.status).toBe("pending");
 
-  return (
-    <div>
-      <h1>Home Page</h1>
-      <p>
-        To see the title change in the browser tab, click the 'Open in new tab'
-        link above
-      </p>
-    </div>
-  );
-}
+    // Wait for the hook to fetch data
+    await waitForNextUpdate();
 
-export default Home;
+    // Test for 'fulfilled' state after data is fetched
+    expect(result.current.status).toBe("fulfilled");
+    expect(result.current.data).toHaveProperty("name", "pikachu");
+
+    // Optionally test for 'rejected' state if you want to simulate an error
+    // expect(result.current.status).toBe("rejected");
+  });
+});

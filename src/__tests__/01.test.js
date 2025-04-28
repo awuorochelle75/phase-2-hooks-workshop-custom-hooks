@@ -1,6 +1,5 @@
 import { renderHook, act } from "@testing-library/react-hooks";
-import { useDocumentTitle } from "../exercise/01";
-// import { useDocumentTitle } from "../solution/01";
+import { useDocumentTitle } from "../exercise/01"; // or "../solution/01"
 
 describe("Exercise 01", () => {
   test("is exported as a named export", () => {
@@ -12,7 +11,7 @@ describe("Exercise 01", () => {
   });
 
   test("sets the document title", () => {
-    renderHook(() => useDocumentTitle());
+    renderHook(() => useDocumentTitle()); // no need to pass a title here
     act(() => {
       expect(document.title).toBe("Welcome to the home page!");
     });
